@@ -38,24 +38,24 @@ public class AdventureTest {
 
     //Group of Tests for the basic get functions.
     @Test
-    public void getStartingRoom() {
+    public void getCorrectStartingRoom() {
         assertEquals("MatthewsStreet", layout.getStartingRoom());
     }
 
     @Test
-    public void getEndingRoom() {
+    public void getCorrectEndingRoom() {
         assertEquals("Siebel1314", layout.getEndingRoom());
     }
 
     @Test
-    public void getName() {
+    public void getCorrectName() {
         assertEquals("MatthewsStreet", roomsArray.get(0).getName());
         assertEquals("Siebel1112", roomsArray.get(4).getName());
         assertEquals("SiebelBasement", roomsArray.get(7).getName());
     }
 
     @Test
-    public void getDescription() {
+    public void getCorrectDescription() {
         assertEquals("You are on Matthews, outside the Siebel Center",
                 roomsArray.get(0).getDescription());
         assertEquals("You are in the north hallway.  You can see Siebel 1112 and the door toward NCSA.",
@@ -65,17 +65,16 @@ public class AdventureTest {
     }
 
     @Test
-    public void getDirectionName() {
+    public void getCorrectDirectionName() {
         Direction[] directions = roomsArray.get(0).getDirections();
         ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
         assertEquals("East", directionsArray.get(0).getDirectionName());
     }
 
     @Test
-    public void getRoom() {
+    public void getCorrectRoom() {
         Direction[] directions = roomsArray.get(1).getDirections();
         ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
         assertEquals("SiebelEastHallway", directionsArray.get(3).getRoom());
     }
-
 }
