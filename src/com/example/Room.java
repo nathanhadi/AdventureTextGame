@@ -17,4 +17,9 @@ public class Room {
     public Direction[] getDirections() {
         return directions;
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
