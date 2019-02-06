@@ -165,6 +165,7 @@ public class Adventure {
 
     /**
      * Runs the game.
+     * 
      * @param arguments - given arguments
      */
     public static void main(String [] arguments) throws Exception{
