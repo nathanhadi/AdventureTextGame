@@ -87,6 +87,12 @@ public class AdventureTest {
     }
 
     @Test
+    public void getCorrectStartingRoomDirections() throws Exception {
+        Adventure.makeApiRequest(URL);
+        assertEquals(roomsArray.get(0).getName(), Adventure.getStartingRoomDirections().getName());
+    }
+
+    @Test
     public void correctlyChecksIfUserQuits() {
         assertEquals("User quit.", Adventure.checkIfUserQuits("quit"));
         assertEquals("User has not quit.", Adventure.checkIfUserQuits("nothing"));
