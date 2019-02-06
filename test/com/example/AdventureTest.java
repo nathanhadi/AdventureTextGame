@@ -77,5 +77,4 @@ public class AdventureTest {
         ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
         assertEquals("SiebelEastHallway", directionsArray.get(3).getRoom());
     }
-    
 }

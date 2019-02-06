@@ -24,7 +24,7 @@ public class Adventure {
      * @param url - the user inputted url
      * @return The parsed layout
      */
-    public static Layout makeApiRequest(String url) throws UnirestException, MalformedURLException {
+    private static Layout makeApiRequest(String url) throws UnirestException, MalformedURLException {
         final HttpResponse<String> stringHttpResponse;
         new URL(url);
         stringHttpResponse = Unirest.get(url).asString();
@@ -42,7 +42,7 @@ public class Adventure {
      *
      * @return the starting rom directions
      */
-    public static Room getStartingRoomDirections() {
+    private static Room getStartingRoomDirections() {
         Room[] rooms = LAYOUT.getRooms();
         ArrayList<Room> roomsArray = new ArrayList<>(Arrays.asList(rooms));
         Room currentRoom = new Room();
@@ -139,7 +139,7 @@ public class Adventure {
      * @param currentRoom - the current room the player is in
      * @return the directions for the current room
      */
-    public static String printDirections(Room currentRoom) {
+    private static String printDirections(Room currentRoom) {
         Direction[] directions = currentRoom.getDirections();
         ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
         String[] directionsNameArray = new String[directionsArray.size()];
@@ -157,7 +157,7 @@ public class Adventure {
      * @param command - the user command
      * @return the status of the user
      */
-    public static String checkIfUserQuits(String command) {
+    private static String checkIfUserQuits(String command) {
         if (command.equals("quit") || command.equals("exit")) {
             return "User quit.";
         }
