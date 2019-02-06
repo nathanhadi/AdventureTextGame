@@ -14,7 +14,6 @@ import java.util.Scanner;
 
 public class Adventure {
     private static final int STATUS_OK = 200;
-    private static final String URL = requestURLFromUser();
     private static boolean GAME_ENDED = false;
     private static Layout LAYOUT = new Layout();
 
@@ -24,7 +23,7 @@ public class Adventure {
      * @param url - the user inputted url
      * @return The parsed layout
      */
-    private static Layout makeApiRequest(String url) throws UnirestException, MalformedURLException {
+    public static Layout makeApiRequest(String url) throws UnirestException, MalformedURLException {
         final HttpResponse<String> stringHttpResponse;
         new URL(url);
         stringHttpResponse = Unirest.get(url).asString();
@@ -42,7 +41,7 @@ public class Adventure {
      *
      * @return the starting rom directions
      */
-    private static Room getStartingRoomDirections() {
+    public static Room getStartingRoomDirections() {
         Room[] rooms = LAYOUT.getRooms();
         ArrayList<Room> roomsArray = new ArrayList<>(Arrays.asList(rooms));
         Room currentRoom = new Room();
@@ -59,7 +58,7 @@ public class Adventure {
      * Runs the adventure game.
      */
     private static void runAdventure() throws Exception {
-        Layout layout = makeApiRequest(URL);
+        Layout layout = makeApiRequest(requestURLFromUser());
         Room[] rooms = layout.getRooms();
         ArrayList<Room> roomsArray = new ArrayList<>(Arrays.asList(rooms));
         String newRoom = "";
@@ -139,7 +138,7 @@ public class Adventure {
      * @param currentRoom - the current room the player is in
      * @return the directions for the current room
      */
-    private static String printDirections(Room currentRoom) {
+    public static String printDirections(Room currentRoom) {
         Direction[] directions = currentRoom.getDirections();
         ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
         String[] directionsNameArray = new String[directionsArray.size()];
@@ -157,7 +156,7 @@ public class Adventure {
      * @param command - the user command
      * @return the status of the user
      */
-    private static String checkIfUserQuits(String command) {
+    public static String checkIfUserQuits(String command) {
         if (command.equals("quit") || command.equals("exit")) {
             return "User quit.";
         }

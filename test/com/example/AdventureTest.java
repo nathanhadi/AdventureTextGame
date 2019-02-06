@@ -3,6 +3,7 @@ package com.example;
 import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -76,5 +77,18 @@ public class AdventureTest {
         Direction[] directions = roomsArray.get(1).getDirections();
         ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
         assertEquals("SiebelEastHallway", directionsArray.get(3).getRoom());
+    }
+
+    //Group of tests for Helper Methods of runAdventure.
+    @Test
+    public void printCorrectDirections() {
+        assertEquals("From here you can go: West, Northeast, North, East.",
+                Adventure.printDirections(roomsArray.get(1)));
+    }
+
+    @Test
+    public void correctlyChecksIfUserQuits() {
+        assertEquals("User quit.", Adventure.checkIfUserQuits("quit"));
+        assertEquals("User has not quit.", Adventure.checkIfUserQuits("nothing"));
     }
 }
