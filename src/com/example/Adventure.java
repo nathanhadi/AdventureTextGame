@@ -18,6 +18,12 @@ public class Adventure {
     private static boolean GAME_ENDED = false;
     private static Layout LAYOUT = new Layout();
 
+    /**
+     * Parses the url and returns the parsed layout.
+     *
+     * @param url - the user inputted url
+     * @return The parsed layout
+     */
     public static Layout makeApiRequest(String url) throws UnirestException, MalformedURLException {
         final HttpResponse<String> stringHttpResponse;
         new URL(url);
@@ -31,6 +37,11 @@ public class Adventure {
         return LAYOUT;
     }
 
+    /**
+     * Gets the starting room directions.
+     *
+     * @return the starting rom directions
+     */
     public static Room getStartingRoomDirections() {
         Room[] rooms = LAYOUT.getRooms();
         ArrayList<Room> roomsArray = new ArrayList<>(Arrays.asList(rooms));
@@ -44,6 +55,9 @@ public class Adventure {
         return currentRoom;
     }
 
+    /**
+     * Runs the adventure game.
+     */
     private static void runAdventure() throws Exception {
         Layout layout = makeApiRequest(URL);
         Room[] rooms = layout.getRooms();
@@ -99,6 +113,11 @@ public class Adventure {
         }
     }
 
+    /**
+     * Requests the url from the user.
+     *
+     * @return the user inputted URL
+     */
     private static String requestURLFromUser() {
         System.out.println("Enter your url:");
         Scanner input = new Scanner(System.in);
@@ -114,6 +133,12 @@ public class Adventure {
         return url;
     }
 
+    /**
+     * Prints the directions for the given room.
+     *
+     * @param currentRoom - the current room the player is in
+     * @return the directions for the current room
+     */
     public static String printDirections(Room currentRoom) {
         Direction[] directions = currentRoom.getDirections();
         ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
@@ -126,6 +151,12 @@ public class Adventure {
         return "From here you can go: " + array + ".";
     }
 
+    /**
+     * Checks if the user has quit or not.
+     *
+     * @param command - the user command
+     * @return the status of the user
+     */
     public static String checkIfUserQuits(String command) {
         if (command.equals("quit") || command.equals("exit")) {
             return "User quit.";
@@ -133,6 +164,10 @@ public class Adventure {
         return "User has not quit.";
     }
 
+    /**
+     * Runs the game.
+     * @param arguments - given arguments
+     */
     public static void main(String [] arguments) throws Exception{
         runAdventure();
     }
