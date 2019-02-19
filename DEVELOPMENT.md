@@ -24,3 +24,4 @@
 - [ ] Split up classes into multiple classes.
 - [X] Make data for testing class local.
 - [X] Change parsing to work with new json format.
+    * Tests added for new json format.

@@ -543,7 +543,7 @@
   "player": {
     "items": [
       {
-        "name": null
+        "name": "compass"
       }
     ]
   }
