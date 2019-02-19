@@ -15,7 +15,43 @@ import java.util.Scanner;
 public class Adventure {
     private static final int STATUS_OK = 200;
     private static boolean GAME_ENDED = false;
-    private static Layout LAYOUT = new Layout();
+    private static Layout layout = new Layout();
+
+    /**
+     * Get the adventure layout based on the command argument input.
+     * If given url or file does not work, default file will be used.
+     *
+     * @param input - command line arguments
+     * @return the parsed layout
+     */
+    public static Layout getAdventureLayout(String[] input) throws UnirestException, MalformedURLException{
+        String defaultFile = "adventure.json";
+        if (input[0].equalsIgnoreCase("url")) {
+            if (checkIfURLIsValid(input[1])) {
+               layout = makeApiRequest(input[1]);
+            } else {
+                layout = getInputtedAdventureLayout(defaultFile);
+            }
+        } else if (input[0].equalsIgnoreCase("file")) {
+            layout = getInputtedAdventureLayout(input[1]);
+        } else {
+            layout = getInputtedAdventureLayout(defaultFile);
+        }
+        return layout;
+    }
+
+    /**
+     * Get the adventure layout for the inputted file.
+     *
+     * @param input - the file name
+     * @return the parsed layout
+     */
+    private static Layout getInputtedAdventureLayout(String input) {
+        String file = Data.getFileContentsAsString(input);
+        Gson gson = new Gson();
+        layout = gson.fromJson(file, Layout.class);
+        return layout;
+    }
 
     /**
      * Parses the url and returns the parsed layout.
@@ -23,7 +59,7 @@ public class Adventure {
      * @param url - the user inputted url
      * @return The parsed layout
      */
-    public static Layout makeApiRequest(String url) throws UnirestException, MalformedURLException {
+    private static Layout makeApiRequest(String url) throws UnirestException, MalformedURLException {
         final HttpResponse<String> stringHttpResponse;
         new URL(url);
         stringHttpResponse = Unirest.get(url).asString();
@@ -31,9 +67,9 @@ public class Adventure {
         if (stringHttpResponse.getStatus() == STATUS_OK) {
             String json = stringHttpResponse.getBody();
             Gson gson = new Gson();
-            LAYOUT = gson.fromJson(json, Layout.class);
+            layout = gson.fromJson(json, Layout.class);
         }
-        return LAYOUT;
+        return layout;
     }
 
     /**
@@ -42,10 +78,10 @@ public class Adventure {
      * @return the starting rom directions
      */
     public static Room getStartingRoomDirections() {
-        Room[] rooms = LAYOUT.getRooms();
+        Room[] rooms = layout.getRooms();
         ArrayList<Room> roomsArray = new ArrayList<>(Arrays.asList(rooms));
         Room currentRoom = new Room();
-        String startingRoom = LAYOUT.getStartingRoom();
+        String startingRoom = layout.getStartingRoom();
         for (int i = 0; i < roomsArray.size(); i++) {
             if (roomsArray.get(i).getName().equals(startingRoom)) {
                 currentRoom = roomsArray.get(i);
@@ -57,43 +93,27 @@ public class Adventure {
     /**
      * Runs the adventure game.
      */
-    private static void runAdventure() throws Exception {
-        Layout layout = makeApiRequest(requestURLFromUser());
+    public static void runAdventure(String[] arguments) throws Exception {
+        layout = getAdventureLayout(arguments);
         Room[] rooms = layout.getRooms();
         ArrayList<Room> roomsArray = new ArrayList<>(Arrays.asList(rooms));
-        String newRoom = "";
         Room currentRoom = getStartingRoomDirections();
         while (!GAME_ENDED) {
             //Print out description of room and possible directions.
             System.out.println(currentRoom.getDescription());
-            System.out.println(printDirections(currentRoom));
-            Direction[] directions = currentRoom.getDirections();
-            ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
+            System.out.println(PrintValues.printDirections(currentRoom));
 
             //Get user input.
             Scanner input = new Scanner(System.in);
             String command = input.nextLine().toLowerCase();
 
             //Check if user quits game.
-            if (checkIfUserQuits(command).equals("User quit.")) {
+            if (PrintValues.printUserQuitStatus(command).equals("User quit.")) {
                 System.exit(0);
             }
 
             //Check if command is valid and print out respective output.
-            if (command.length() < 3) {
-                System.out.println("I don't understand " + command);
-            } else if (command.substring(0, 3).equals("go ")) {
-                for (int i = 0; i < directionsArray.size(); i++) {
-                    if (command.substring(3).equalsIgnoreCase(directionsArray.get(i).getDirectionName())) {
-                        newRoom = directionsArray.get(i).getRoom();
-                    }
-                }
-                if (currentRoom.getName().equals(newRoom)) {
-                    System.out.println("I can't " + command);
-                }
-            } else {
-                System.out.println("I don't understand " + command);
-            }
+            String newRoom = PrintValues.printOutputFromCommand(command, currentRoom);
 
             //Set newRoom to the currentRoom object.
             for (int i = 0; i < roomsArray.size(); i++) {
@@ -117,58 +137,17 @@ public class Adventure {
      *
      * @return the user inputted URL
      */
-    private static String requestURLFromUser() {
-        System.out.println("Enter your url:");
-        Scanner input = new Scanner(System.in);
-        String url = input.nextLine().toLowerCase();
+    private static boolean checkIfURLIsValid(String url) {
         try {
             makeApiRequest(url);
         } catch (UnirestException e) {
             e.printStackTrace();
             System.out.println("Network not responding");
+            return false;
         } catch (MalformedURLException e) {
             System.out.println("That URL is not valid: " + url);
+            return false;
         }
-        return url;
-    }
-
-    /**
-     * Prints the directions for the given room.
-     *
-     * @param currentRoom - the current room the player is in
-     * @return the directions for the current room
-     */
-    public static String printDirections(Room currentRoom) {
-        Direction[] directions = currentRoom.getDirections();
-        ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
-        String[] directionsNameArray = new String[directionsArray.size()];
-        for (int i = 0; i < directionsArray.size(); i++) {
-            directionsNameArray[i] = directionsArray.get(i).getDirectionName();
-        }
-        String array = Arrays.toString(directionsNameArray).replace("[", "")
-                .replace("]", "");
-        return "From here you can go: " + array + ".";
-    }
-
-    /**
-     * Checks if the user has quit or not.
-     *
-     * @param command - the user command
-     * @return the status of the user
-     */
-    public static String checkIfUserQuits(String command) {
-        if (command.equals("quit") || command.equals("exit")) {
-            return "User quit.";
-        }
-        return "User has not quit.";
-    }
-
-    /**
-     * Runs the game.
-     * 
-     * @param arguments - given arguments
-     */
-    public static void main(String [] arguments) throws Exception{
-        runAdventure();
+        return true;
     }
 }

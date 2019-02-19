@@ -10,13 +10,15 @@ import java.util.Arrays;
 import static org.junit.Assert.*;
 
 public class AdventureTest {
-    private static final String file = Data.getFileContentsAsString("adventure.json");
+    private static final String fileName = "adventure.json";
     private static Layout layout = new Layout();
     private static ArrayList<Room> roomsArray = new ArrayList<>();
+    private static String[] arguments = { "file", fileName};
 
     //Parses the file.
     @Before
     public void setUp() {
+        String file = Data.getFileContentsAsString(fileName);
         Gson gson = new Gson();
         layout = gson.fromJson(file, Layout.class);
         Room[] rooms = layout.getRooms();
@@ -94,21 +96,34 @@ public class AdventureTest {
         assertEquals("Sapphire Key", directionsArray.get(0).getValidKeyNames()[0]);
     }
 
-    //Group of tests for Helper Methods of runAdventure.
+    //Group of tests for Print Values in PrintValues class.
     @Test
     public void printCorrectDirections() {
-        assertEquals("From here you can go: West, Northeast, North, East.",
-                Adventure.printDirections(roomsArray.get(1)));
+        assertEquals("From here you can go: East.",
+                PrintValues.printDirections(roomsArray.get(1)));
+    }
+
+    @Test
+    public void printCorrectUserQuitStatus() {
+        assertEquals("User quit.", PrintValues.printUserQuitStatus("quit"));
+        assertEquals("User has not quit.", PrintValues.printUserQuitStatus("nothing"));
+    }
+
+    @Test
+    public void printCorrectCommandResultWhenValidCommand() {
+        assertEquals(roomsArray.get(5).getName(),
+                PrintValues.printOutputFromCommand("go south",roomsArray.get(0)));
+    }
+
+    @Test
+    public void printCorrectCommandResultWhenInvalidCommand() {
+        assertEquals(roomsArray.get(0).getName(),
+                PrintValues.printOutputFromCommand("go north",roomsArray.get(0)));
     }
 
     @Test
     public void getCorrectStartingRoomDirections() throws Exception {
+        layout = Adventure.getAdventureLayout(arguments);
         assertEquals(roomsArray.get(0).getName(), Adventure.getStartingRoomDirections().getName());
-    }
-
-    @Test
-    public void correctlyChecksIfUserQuits() {
-        assertEquals("User quit.", Adventure.checkIfUserQuits("quit"));
-        assertEquals("User has not quit.", Adventure.checkIfUserQuits("nothing"));
     }
 }

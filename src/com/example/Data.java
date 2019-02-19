@@ -26,7 +26,6 @@ public class Data {
             return new String(Files.readAllBytes(path));
         } catch (IOException e) {
             System.out.println("Couldn't find file: " + filename);
-            System.exit(-1);
             return null;
         }
     }

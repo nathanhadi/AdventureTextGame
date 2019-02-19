@@ -30,11 +30,7 @@
           "validKeyNames": [ ]
         }
       ],
-      "items": [
-        {
-          "name": null
-        }
-      ]
+      "items": [ ]
     },
     {
       "name": "DRoom",
@@ -53,11 +49,7 @@
           "validKeyNames": [ ]
         }
       ],
-      "items": [
-        {
-          "name": null
-        }
-      ]
+      "items": [ ]
     },
     {
       "name": "ARoom",
@@ -76,11 +68,7 @@
           "validKeyNames": [ ]
         }
       ],
-      "items": [
-        {
-          "name": null
-        }
-      ]
+      "items": [ ]
     },
     {
       "name": "SRoom",
@@ -99,11 +87,7 @@
           "validKeyNames": [ ]
         }
       ],
-      "items": [
-        {
-          "name": null
-        }
-      ]
+      "items": [ ]
     },
     {
       "name": "Lobby",
@@ -134,19 +118,15 @@
           "validKeyNames": [ ]
         }
       ],
-      "items": [
-        {
-          "name": null
-        }
-      ]
+      "items": [ ]
     },
     {
       "name": "Kitchen",
       "description": "You enter a kitchen and see a hammer lying on the counter.",
       "directions": [
         {
-          "directionName": "Down",
-          "room": "GrandStaircase",
+          "directionName": "North",
+          "room": "Lobby",
           "enabled": "true",
           "validKeyNames": [ ]
         }
@@ -174,15 +154,11 @@
           "validKeyNames": [ ]
         }
       ],
-      "items": [
-        {
-          "name": null
-        }
-      ]
+      "items": [ ]
     },
     {
       "name": "UpperStaircase",
-      "description": "The room is lit in red and you see a locked door that appears to have an amethyst colored keyhole.",
+      "description": "You reach the top floor of the mansion.",
       "directions": [
         {
           "directionName": "Down",
@@ -209,24 +185,20 @@
           "validKeyNames": [ ]
         }
       ],
-      "items": [
-        {
-          "name": null
-        }
-      ]
+      "items": [ ]
     },
     {
       "name": "Hallway",
       "description": "You reach a long dimly lit hallway and find a locked elevator to your East. You also spot a rope hanging on the wall.",
       "directions": [
         {
-          "directionName": "West",
+          "directionName": "East",
           "room": "UpperStaircase",
           "enabled": "true",
           "validKeyNames": [ ]
         },
         {
-          "directionName": "East",
+          "directionName": "West",
           "room": "Elevator",
           "enabled": "false",
           "validKeyNames": [ "key" ]
@@ -255,11 +227,7 @@
           "validKeyNames": [ ]
         }
       ],
-      "items": [
-        {
-          "name": null
-        }
-      ]
+      "items": [ ]
     },
     {
       "name": "ElevatorBasement",
@@ -272,11 +240,7 @@
           "validKeyNames": [ ]
         }
       ],
-      "items": [
-        {
-          "name": null
-        }
-      ]
+      "items": [ ]
     },
     {
       "name": "BasementEntrance",
@@ -295,11 +259,7 @@
           "validKeyNames": [ ]
         }
       ],
-      "items": [
-        {
-          "name": null
-        }
-      ]
+      "items": [ ]
     },
     {
       "name": "ToolShed",
@@ -356,11 +316,7 @@
           "validKeyNames": [ "Nail" ]
         }
       ],
-      "items": [
-        {
-          "name": null
-        }
-      ]
+      "items": [ ]
     },
     {
       "name": "FalseCeiling",
@@ -396,11 +352,7 @@
           "validKeyNames": [ ]
         }
       ],
-      "items": [
-        {
-          "name": null
-        }
-      ]
+      "items": [ ]
     },
     {
       "name": "Vent",
@@ -436,11 +388,7 @@
           "validKeyNames": [ ]
         }
       ],
-      "items": [
-        {
-          "name": null
-        }
-      ]
+      "items": [ ]
     },
     {
       "name": "Hole",
@@ -459,11 +407,7 @@
           "validKeyNames": [ ]
         }
       ],
-      "items": [
-        {
-          "name": null
-        }
-      ]
+      "items": [ ]
     },
     {
       "name": "Shaft",
@@ -516,11 +460,7 @@
           "validKeyNames": [ "Hammer" ]
         }
       ],
-      "items": [
-        {
-          "name": null
-        }
-      ]
+      "items": [ ]
     },
     {
       "name": "ElevatorKeyRoom",
