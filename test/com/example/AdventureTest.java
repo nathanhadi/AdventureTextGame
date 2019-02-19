@@ -1,38 +1,25 @@
 package com.example;
 
 import com.google.gson.Gson;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
 public class AdventureTest {
-    private static final String URL = "https://courses.engr.illinois.edu/cs126/adventure/siebel.json";
+    private static final String file = Data.getFileContentsAsString("adventure.json");
     private static Layout layout = new Layout();
     private static ArrayList<Room> roomsArray = new ArrayList<>();
-    private static Room[] rooms;
-    private static final int STATUS_OK = 200;
 
-    //Parses the URL.
+    //Parses the file.
     @Before
-    public void setUp() throws Exception{
-        final HttpResponse<String> stringHttpResponse;
-        new URL(URL);
-        stringHttpResponse = Unirest.get(URL).asString();
-
-        if (stringHttpResponse.getStatus() == STATUS_OK) {
-            String json = stringHttpResponse.getBody();
-            Gson gson = new Gson();
-            layout = gson.fromJson(json, Layout.class);
-        }
-        rooms = layout.getRooms();
+    public void setUp() {
+        Gson gson = new Gson();
+        layout = gson.fromJson(file, Layout.class);
+        Room[] rooms = layout.getRooms();
         roomsArray = new ArrayList<>(Arrays.asList(rooms));
     }
 
@@ -88,7 +75,6 @@ public class AdventureTest {
 
     @Test
     public void getCorrectStartingRoomDirections() throws Exception {
-        Adventure.makeApiRequest(URL);
         assertEquals(roomsArray.get(0).getName(), Adventure.getStartingRoomDirections().getName());
     }
 

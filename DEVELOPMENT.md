@@ -22,5 +22,5 @@
 - [ ] Add monsters like ghosts that the player can fight.
 - [ ] Make sure methods are not too long and are broken up into individual components.
 - [ ] Split up classes into multiple classes.
-- [ ] Make data for testing class local.
+- [X] Make data for testing class local.
 - [X] Change parsing to work with new json format.
