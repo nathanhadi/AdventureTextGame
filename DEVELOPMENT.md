@@ -12,12 +12,15 @@
 10. Test the player moving in the game.
 
 #Assignment Outline:
-- [ ] Create a json file for the new adventure game.
+- [X] Create a json file for the new adventure game.
+    * Initial json file is created.
 - [ ] Add a timer with a required time the player must complete the game in.
 - [ ] Add hidden rooms that the player can access by typing in a direction that is not listed.
-- [ ] Add items like three keys required to reach the end room.
-- [ ] Create a tutorial room to introduce game mechanics to player.
+- [X] Add items like three keys required to reach the end room.
+    * Four keys created: Sapphire, Amethyst, Diamond, and Outside key.
+- [ ] Create a tutorial room and script to introduce game mechanics to player.
 - [ ] Add monsters like ghosts that the player can fight.
 - [ ] Make sure methods are not too long and are broken up into individual components.
 - [ ] Split up classes into multiple classes.
 - [ ] Make data for testing class local.
+- [ ] Change parsing to work with new json format.
