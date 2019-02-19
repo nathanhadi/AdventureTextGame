@@ -20,4 +20,4 @@
 - [ ] Add monsters like ghosts that the player can fight.
 - [ ] Make sure methods are not too long and are broken up into individual components.
 - [ ] Split up classes into multiple classes.
-- [ ] Make testing class data local.
+- [ ] Make data for testing class local.
