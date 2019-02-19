@@ -23,4 +23,4 @@
 - [ ] Make sure methods are not too long and are broken up into individual components.
 - [ ] Split up classes into multiple classes.
 - [ ] Make data for testing class local.
-- [ ] Change parsing to work with new json format.
+- [X] Change parsing to work with new json format.

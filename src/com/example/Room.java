@@ -5,6 +5,7 @@ public class Room {
     private String name;
     private String description;
     private Direction[] directions;
+    private Item[] items;
 
     public String getName() {
         return name;
@@ -16,6 +17,10 @@ public class Room {
 
     public Direction[] getDirections() {
         return directions;
+    }
+
+    public Item[] getItems() {
+        return items;
     }
 
     @Override
