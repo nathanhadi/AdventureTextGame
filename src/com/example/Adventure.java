@@ -5,6 +5,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -16,6 +17,7 @@ public class Adventure {
     private static final int STATUS_OK = 200;
     private static boolean GAME_ENDED = false;
     private static Layout layout = new Layout();
+    private static ArrayList<Item> playerItems = new ArrayList<>();
 
     /**
      * Get the adventure layout based on the command argument input.
@@ -94,14 +96,22 @@ public class Adventure {
      * Runs the adventure game.
      */
     public static void runAdventure(String[] arguments) throws Exception {
+        PrintValues.printTutorialInstructions();
         layout = getAdventureLayout(arguments);
         Room[] rooms = layout.getRooms();
         ArrayList<Room> roomsArray = new ArrayList<>(Arrays.asList(rooms));
         Room currentRoom = getStartingRoomDirections();
+        Item[] items = layout.getPlayer().getItems();
+        playerItems = new ArrayList<>(Arrays.asList(items));
+        String newRoom = "";
         while (!GAME_ENDED) {
             //Print out description of room and possible directions.
             System.out.println(currentRoom.getDescription());
             System.out.println(PrintValues.printDirections(currentRoom));
+            Direction[] directions = currentRoom.getDirections();
+            ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
+            Item[] item = currentRoom.getItems();
+            ArrayList<Item> roomItems = new ArrayList<>(Arrays.asList(item));
 
             //Get user input.
             Scanner input = new Scanner(System.in);
@@ -113,7 +123,15 @@ public class Adventure {
             }
 
             //Check if command is valid and print out respective output.
-            String newRoom = PrintValues.printOutputFromCommand(command, currentRoom);
+            if (command.equalsIgnoreCase("Check Inventory")) {
+                System.out.println("Your inventory: " + playerItems);
+            } else if (command.contains("pickup ")) {
+                addPickupItemToPlayerItems(command, roomItems);
+            } else if (command.contains("use") && command.contains("with")) {
+               newRoom = checkIfPlayerItemUsedIsValid(command, directionsArray, currentRoom);
+            } else if (command.contains("go ")) {
+                newRoom = PrintValues.printOutputFromCommand(command, currentRoom);
+            }
 
             //Set newRoom to the currentRoom object.
             for (int i = 0; i < roomsArray.size(); i++) {
@@ -132,6 +150,37 @@ public class Adventure {
         }
     }
 
+    public static String checkIfPlayerItemUsedIsValid(String command,
+                                                    ArrayList<Direction> directionsArray, Room currentRoom) {
+        String newRoom = currentRoom.getName();
+        for (int i = 0; i < directionsArray.size(); i++) {
+            for (int j = 0; j < playerItems.size(); j++) {
+                if (command.contains(playerItems.get(j).getName().toLowerCase())) {
+                    for (int k = 0; k < directionsArray.get(i).getValidKeyNames().length; k++) {
+                        if (command.contains(directionsArray.get(i).getValidKeyNames()[k].toLowerCase())) {
+                            if (command.contains(directionsArray.get(i).getDirectionName().toLowerCase())) {
+                                newRoom = directionsArray.get(i).getRoom();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return newRoom;
+    }
+
+    public static void addPickupItemToPlayerItems(String command, ArrayList<Item> roomItems) {
+        if (command.contains("pickup ")) {
+            for (int i = 0; i < roomItems.size(); i++) {
+                if (command.contains(roomItems.get(i).getName().toLowerCase())) {
+                    playerItems.add(roomItems.get(i));
+                    System.out.println("You have picked up: " + roomItems.get(i).getName() + "\n");
+                }
+            }
+        } else if (command.substring(0,6).equalsIgnoreCase("pickup ")) {
+            System.out.println("You can not pickup: " + command.substring(6));
+        }
+    }
     /**
      * Requests the url from the user.
      *

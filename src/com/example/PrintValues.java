@@ -5,6 +5,18 @@ import java.util.Arrays;
 
 public class PrintValues {
     /**
+     * Prints starting instructions for the game.
+     */
+    public static void printTutorialInstructions() {
+        System.out.println("Welcome to the Mansion. In order to escape, here are a couple helpful tips:");
+        System.out.println("1. Some rooms are locked, to enter the room you might need a certain item.");
+        System.out.println("2. In order to pick up an item you must use the command 'pickup (item)'. " +
+                "You can view these items using the command 'check inventory'");
+        System.out.println("3. To use your item you must use the command 'use (item) with (direction)'.");
+        System.out.println("The game is starting, you are currently locked in a jail cell.\n");
+    }
+
+    /**
      * Prints the directions for the given room.
      *
      * @param currentRoom - the current room the player is in
@@ -33,20 +45,23 @@ public class PrintValues {
         String newRoom = currentRoom.getName();
         Direction[] directions = currentRoom.getDirections();
         ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
-
+        boolean enabled = true;
         if (command.length() < 3) {
             System.out.println("I don't understand " + command);
         } else if (command.substring(0, 3).equals("go ")) {
             for (int i = 0; i < directionsArray.size(); i++) {
                 if (command.substring(3).equalsIgnoreCase(directionsArray.get(i).getDirectionName())) {
-                    newRoom = directionsArray.get(i).getRoom();
+                    if (directionsArray.get(i).getEnabled().equals("true")) {
+                        newRoom = directionsArray.get(i).getRoom();
+                    } else {
+                        System.out.println("You may not enter this room until you get a certain item.");
+                        enabled = false;
+                    }
                 }
             }
-            if (currentRoom.getName().equals(newRoom)) {
+            if (enabled && (currentRoom.getName().equals(newRoom))) {
                 System.out.println("I can't " + command);
             }
-        } else {
-            System.out.println("I don't understand " + command);
         }
         return newRoom;
     }

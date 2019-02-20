@@ -4,7 +4,7 @@
   "rooms": [
     {
       "name": "LockedRoom",
-      "description": "You are in a locked room and see a door in front of you.",
+      "description": "You are in a locked room and see a door in front of you. On the floor there is a key labeled 'tutorial key'.",
       "directions": [
         {
           "directionName": "South",
@@ -122,7 +122,7 @@
     },
     {
       "name": "Kitchen",
-      "description": "You enter a kitchen and see a hammer lying on the counter.",
+      "description": "You enter a kitchen and see a 'hammer' lying on the counter.",
       "directions": [
         {
           "directionName": "North",
@@ -189,7 +189,7 @@
     },
     {
       "name": "Hallway",
-      "description": "You reach a long dimly lit hallway and find a locked elevator to your East. You also spot a rope hanging on the wall.",
+      "description": "You reach a long dimly lit hallway and find a locked elevator to your East. You also spot a 'rope' hanging on the wall.",
       "directions": [
         {
           "directionName": "East",
@@ -244,7 +244,7 @@
     },
     {
       "name": "BasementEntrance",
-      "description": "As you exit the elevator you hear the elevator hum again and move up.",
+      "description": "As you exit the elevator you hear the elevator hum again and move up. You are in the basement entrance of the mansion.",
       "directions": [
         {
           "directionName": "North",
@@ -263,7 +263,7 @@
     },
     {
       "name": "ToolShed",
-      "description": "You enter a tool shed and see a screwdriver hanging on a nail in the wall.",
+      "description": "You enter a tool shed and see a 'screwdriver' hanging on a 'nail' in the wall.",
       "directions": [
         {
           "directionName": "South",
@@ -320,7 +320,7 @@
     },
     {
       "name": "FalseCeiling",
-      "description": "You see a key labeled outside key.",
+      "description": "You see a key labeled 'outside key'.",
       "directions": [
         {
           "directionName": "Down",
@@ -356,7 +356,7 @@
     },
     {
       "name": "Vent",
-      "description": "You see a diamond key laying around.",
+      "description": "You see a 'diamond key' laying around.",
       "directions": [
         {
           "directionName": "Down",
@@ -411,7 +411,7 @@
     },
     {
       "name": "Shaft",
-      "description": "You climb down the rope and see an amethyst key.",
+      "description": "You climb down the rope and see an 'amethyst key'.",
       "directions": [
         {
           "directionName": "Up",
@@ -428,7 +428,7 @@
     },
     {
       "name": "GardenView",
-      "description": "You see a beautiful garden to your North through a window. At the corner of your eye you see a sapphire key lying on the windowsill.",
+      "description": "You see a beautiful garden to your North through a window. At the corner of your eye you see a 'sapphire key' lying on the windowsill.",
       "directions": [
         {
           "directionName": "South",
@@ -464,7 +464,7 @@
     },
     {
       "name": "ElevatorKeyRoom",
-      "description": "Among the broken glass scattered around the floor you see a key.",
+      "description": "Among the broken glass scattered around the floor you see a 'key'.",
       "directions": [
         {
           "directionName": "North",

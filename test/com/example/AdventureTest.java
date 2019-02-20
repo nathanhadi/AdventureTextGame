@@ -110,7 +110,7 @@ public class AdventureTest {
     }
 
     @Test
-    public void printCorrectCommandResultWhenValidCommand() {
+    public void printCorrectCommandResultWhenValidCommandAndCheckIfUserMovesRooms() {
         assertEquals(roomsArray.get(5).getName(),
                 PrintValues.printOutputFromCommand("go south",roomsArray.get(0)));
     }
