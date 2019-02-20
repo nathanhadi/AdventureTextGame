@@ -14,8 +14,7 @@
 #Assignment Outline:
 - [X] Create a json file for the new adventure game.
     * Initial json file is created.
-- [ ] Add a timer with a required time the player must complete the game in.
-- [ ] Add hidden rooms that the player can access by typing in a direction that is not listed.
+- [X] Add a timer with a required time the player must complete the game in.
 - [X] Add items like three keys required to reach the end room.
     * Four keys created: Sapphire, Amethyst, Diamond, and Outside key.
 - [X] Create a tutorial room and script to introduce game mechanics to player.
