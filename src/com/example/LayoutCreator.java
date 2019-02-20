@@ -80,7 +80,7 @@ public class LayoutCreator {
      *
      * @return true for valid url
      */
-    private static boolean checkIfURLIsValid(String url) {
+    public static boolean checkIfURLIsValid(String url) {
         try {
             makeApiRequest(url);
         } catch (UnirestException e) {

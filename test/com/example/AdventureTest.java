@@ -11,6 +11,7 @@ import static org.junit.Assert.*;
 
 public class AdventureTest {
     private static final String fileName = "adventure.json";
+    private static final String url = "https://courses.engr.illinois.edu/cs126/adventure/siebel.json";
     private static Layout layout = new Layout();
     private static ArrayList<Room> roomsArray = new ArrayList<>();
     private static String[] arguments = { "file", fileName};
@@ -46,12 +47,13 @@ public class AdventureTest {
 
     @Test
     public void getCorrectDescription() {
-        assertEquals("You are in a locked room and see a door in front of you.",
+        assertEquals("You are in a locked room and see a door in front of you. " +
+                        "On the floor there is a key labeled 'tutorial key'.",
                 roomsArray.get(0).getDescription());
         assertEquals("You enter an elevator and see the panel has only two options, B and 2.",
                 roomsArray.get(10).getDescription());
         assertEquals("Among the broken glass scattered around the floor " +
-                "you see a key.", roomsArray.get(23).getDescription());
+                "you see a 'key'.", roomsArray.get(23).getDescription());
     }
 
     @Test
@@ -110,9 +112,15 @@ public class AdventureTest {
     }
 
     @Test
-    public void printCorrectCommandResultWhenValidCommandAndCheckIfUserMovesRooms() {
-        assertEquals(roomsArray.get(5).getName(),
+    public void printCorrectCommandResultWhenValidCommandAndCheckIfUserMovesRoomsIfLockedRoom() {
+        assertEquals(roomsArray.get(0).getName(),
                 PrintValues.printOutputFromCommand("go south",roomsArray.get(0)));
+    }
+
+    @Test
+    public void printCorrectCommandResultWhenValidCommandAndCheckIfUserMovesRooms() {
+        assertEquals(roomsArray.get(6).getName(),
+                PrintValues.printOutputFromCommand("go south",roomsArray.get(5)));
     }
 
     @Test
@@ -122,8 +130,7 @@ public class AdventureTest {
     }
 
     @Test
-    public void getCorrectStartingRoomDirections() throws Exception {
-        layout = LayoutCreator.getAdventureLayout(arguments);
-        assertEquals(roomsArray.get(0).getName(), Adventure.getStartingRoomDirections().getName());
+    public void getCorrectStatusOfURL() {
+        assertTrue(LayoutCreator.checkIfURLIsValid(url));
     }
 }
