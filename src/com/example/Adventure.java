@@ -9,12 +9,16 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Adventure {
-    private static boolean GAME_ENDED = false;
+    /** The sixth index of the command user input. */
+    private static final int SIXTH_INDEX_OF_COMMAND = 6;
+
+    private static boolean gameEnded = false;
     private static Layout layout = new Layout();
     private static ArrayList<Item> playerItems = new ArrayList<>();
     private static ArrayList<Room> roomsArray = new ArrayList<>();
     private static ArrayList<Direction> directionsArray = new ArrayList<>();
     private static ArrayList<Item> roomItems = new ArrayList<>();
+
 
     /**
      * Gets the starting room directions.
@@ -39,7 +43,7 @@ public class Adventure {
      *
      * @param arguments - the given arguments
      */
-    public static void setTheGameUp(String[] arguments) throws MalformedURLException, UnirestException {
+    private static void setTheGameUp(String[] arguments) throws MalformedURLException, UnirestException {
         PrintValues.printTutorialInstructions();
         layout = LayoutCreator.getAdventureLayout(arguments);
         Room[] rooms = layout.getRooms();
@@ -55,7 +59,7 @@ public class Adventure {
         setTheGameUp(arguments);
         Room currentRoom = getStartingRoomDirections();
         String newRoom = "";
-        while (!GAME_ENDED) {
+        while (!gameEnded) {
             //Print out description of room and possible directions.
             System.out.println(currentRoom.getDescription());
             System.out.println(PrintValues.printDirections(currentRoom));
@@ -85,7 +89,7 @@ public class Adventure {
 
             //Check if game has ended.
             if (newRoom.equals(layout.getEndingRoom())) {
-                GAME_ENDED = true;
+                gameEnded = true;
                 System.out.println(currentRoom.getDescription());
                 System.out.println("You have reached your final destination and exit.");
                 System.exit(0);
@@ -100,7 +104,7 @@ public class Adventure {
      * @param currentRoom - the currentRoom the player is in
      * @return the newRoom
      */
-    public static String checkCommand(String command, Room currentRoom) {
+    private static String checkCommand(String command, Room currentRoom) {
         String newRoom = currentRoom.getName();
         if (command.equalsIgnoreCase("Check Inventory")) {
             System.out.println("Your inventory: " + playerItems);
@@ -121,7 +125,7 @@ public class Adventure {
      * @param currentRoom - the currentRoom the player is in
      * @return the newRoom
      */
-    public static String checkIfPlayerItemUsedIsValid(String command, Room currentRoom) {
+    private static String checkIfPlayerItemUsedIsValid(String command, Room currentRoom) {
         String newRoom = currentRoom.getName();
         for (int i = 0; i < directionsArray.size(); i++) {
             for (int j = 0; j < playerItems.size(); j++) {
@@ -144,7 +148,7 @@ public class Adventure {
      *
      * @param command - the command the user inputs
      */
-    public static void addPickupItemToPlayerItems(String command) {
+    private static void addPickupItemToPlayerItems(String command) {
         if (command.contains("pickup ")) {
             for (int i = 0; i < roomItems.size(); i++) {
                 if (command.contains(roomItems.get(i).getName().toLowerCase())) {
@@ -152,8 +156,8 @@ public class Adventure {
                     System.out.println("You have picked up: " + roomItems.get(i).getName() + "\n");
                 }
             }
-        } else if (command.substring(0,6).equalsIgnoreCase("pickup ")) {
-            System.out.println("You can not pickup: " + command.substring(6));
+        } else if (command.contains("pickup")) {
+            System.out.println("You can not pickup: " + command.substring(SIXTH_INDEX_OF_COMMAND));
         }
     }
 }

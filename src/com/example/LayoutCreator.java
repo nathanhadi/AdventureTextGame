@@ -9,7 +9,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class LayoutCreator {
+    /** Status of URL. */
     private static final int STATUS_OK = 200;
+
+    /** The first index of the command argument input. */
+    private static final int ARGUMENT_ONE_INDEX = 0;
+
+    /** The second index of the command argument input. */
+    private static final int ARGUMENT_TWO_INDEX = 1;
+
     private static Layout layout = new Layout();
 
     /**
@@ -21,14 +29,14 @@ public class LayoutCreator {
      */
     public static Layout getAdventureLayout(String[] input) throws UnirestException, MalformedURLException {
         String defaultFile = "adventure.json";
-        if (input[0].equalsIgnoreCase("url")) {
-            if (checkIfURLIsValid(input[1])) {
-                layout = makeApiRequest(input[1]);
+        if (input[ARGUMENT_ONE_INDEX].equalsIgnoreCase("url")) {
+            if (checkIfURLIsValid(input[ARGUMENT_TWO_INDEX])) {
+                layout = makeApiRequest(input[ARGUMENT_TWO_INDEX]);
             } else {
                 layout = getInputtedAdventureLayout(defaultFile);
             }
-        } else if (input[0].equalsIgnoreCase("file")) {
-            layout = getInputtedAdventureLayout(input[1]);
+        } else if (input[ARGUMENT_ONE_INDEX].equalsIgnoreCase("file")) {
+            layout = getInputtedAdventureLayout(input[ARGUMENT_TWO_INDEX]);
         } else {
             layout = getInputtedAdventureLayout(defaultFile);
         }

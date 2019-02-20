@@ -1,7 +1,7 @@
 #Things that need to be fixed based off of feedback:
 1. ~~Use whitespace to separate logical chunks of code in a method.~~
 2. ~~Do not use UPPER_CASING for normal class variables.~~
-3. Do not have magic numbers.
+3. ~~Do not have magic numbers.~~
 4. ~~Break very long methods into individual components.~~
 5. ~~Verify the scope of variables.~~
 6. Consider which methods to make static and non-static.
@@ -29,3 +29,4 @@
     * Data stored in Data folder under file name called adventure.json.
 - [X] Change parsing to work with new json format.
     * Tests added for new json format.
+    

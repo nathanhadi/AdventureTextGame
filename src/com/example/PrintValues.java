@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class PrintValues {
+    /** The first/starting index for the command input. */
+    private static final int STARTING_INDEX_OF_COMMAND = 0;
+
+    /** The third index for the command input. */
+    private static final int THIRD_INDEX_OF_COMMAND = 3;
+
     /**
      * Prints starting instructions for the game.
      */
@@ -13,6 +19,7 @@ public class PrintValues {
         System.out.println("2. In order to pick up an item you must use the command 'pickup (item)'. " +
                 "You can view these items using the command 'check inventory'");
         System.out.println("3. To use your item you must use the command 'use (item) with (direction)'.");
+        System.out.println("4. You only have 1000 seconds to complete this adventure.");
         System.out.println("The game is starting, you are currently locked in a jail cell.\n");
     }
 
@@ -46,11 +53,12 @@ public class PrintValues {
         Direction[] directions = currentRoom.getDirections();
         ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
         boolean enabled = true;
-        if (command.length() < 3) {
+        if (command.length() < THIRD_INDEX_OF_COMMAND) {
             System.out.println("I don't understand " + command);
-        } else if (command.substring(0, 3).equals("go ")) {
+        } else if (command.substring(STARTING_INDEX_OF_COMMAND, THIRD_INDEX_OF_COMMAND).equals("go ")) {
             for (int i = 0; i < directionsArray.size(); i++) {
-                if (command.substring(3).equalsIgnoreCase(directionsArray.get(i).getDirectionName())) {
+                if (command.substring(THIRD_INDEX_OF_COMMAND).
+                        equalsIgnoreCase(directionsArray.get(i).getDirectionName())) {
                     if (directionsArray.get(i).getEnabled().equals("true")) {
                         newRoom = directionsArray.get(i).getRoom();
                     } else {
