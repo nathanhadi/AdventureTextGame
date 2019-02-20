@@ -1,78 +1,20 @@
 package com.example;
 
-import com.google.gson.Gson;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
-import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Adventure {
-    private static final int STATUS_OK = 200;
     private static boolean GAME_ENDED = false;
     private static Layout layout = new Layout();
     private static ArrayList<Item> playerItems = new ArrayList<>();
-
-    /**
-     * Get the adventure layout based on the command argument input.
-     * If given url or file does not work, default file will be used.
-     *
-     * @param input - command line arguments
-     * @return the parsed layout
-     */
-    public static Layout getAdventureLayout(String[] input) throws UnirestException, MalformedURLException{
-        String defaultFile = "adventure.json";
-        if (input[0].equalsIgnoreCase("url")) {
-            if (checkIfURLIsValid(input[1])) {
-               layout = makeApiRequest(input[1]);
-            } else {
-                layout = getInputtedAdventureLayout(defaultFile);
-            }
-        } else if (input[0].equalsIgnoreCase("file")) {
-            layout = getInputtedAdventureLayout(input[1]);
-        } else {
-            layout = getInputtedAdventureLayout(defaultFile);
-        }
-        return layout;
-    }
-
-    /**
-     * Get the adventure layout for the inputted file.
-     *
-     * @param input - the file name
-     * @return the parsed layout
-     */
-    private static Layout getInputtedAdventureLayout(String input) {
-        String file = Data.getFileContentsAsString(input);
-        Gson gson = new Gson();
-        layout = gson.fromJson(file, Layout.class);
-        return layout;
-    }
-
-    /**
-     * Parses the url and returns the parsed layout.
-     *
-     * @param url - the user inputted url
-     * @return The parsed layout
-     */
-    private static Layout makeApiRequest(String url) throws UnirestException, MalformedURLException {
-        final HttpResponse<String> stringHttpResponse;
-        new URL(url);
-        stringHttpResponse = Unirest.get(url).asString();
-
-        if (stringHttpResponse.getStatus() == STATUS_OK) {
-            String json = stringHttpResponse.getBody();
-            Gson gson = new Gson();
-            layout = gson.fromJson(json, Layout.class);
-        }
-        return layout;
-    }
+    private static ArrayList<Room> roomsArray = new ArrayList<>();
+    private static ArrayList<Direction> directionsArray = new ArrayList<>();
+    private static ArrayList<Item> roomItems = new ArrayList<>();
 
     /**
      * Gets the starting room directions.
@@ -81,7 +23,7 @@ public class Adventure {
      */
     public static Room getStartingRoomDirections() {
         Room[] rooms = layout.getRooms();
-        ArrayList<Room> roomsArray = new ArrayList<>(Arrays.asList(rooms));
+        roomsArray = new ArrayList<>(Arrays.asList(rooms));
         Room currentRoom = new Room();
         String startingRoom = layout.getStartingRoom();
         for (int i = 0; i < roomsArray.size(); i++) {
@@ -93,25 +35,34 @@ public class Adventure {
     }
 
     /**
+     * Set the layout of the game up and other items.
+     *
+     * @param arguments - the given arguments
+     */
+    public static void setTheGameUp(String[] arguments) throws MalformedURLException, UnirestException {
+        PrintValues.printTutorialInstructions();
+        layout = LayoutCreator.getAdventureLayout(arguments);
+        Room[] rooms = layout.getRooms();
+        roomsArray = new ArrayList<>(Arrays.asList(rooms));
+        Item[] items = layout.getPlayer().getItems();
+        playerItems = new ArrayList<>(Arrays.asList(items));
+    }
+
+    /**
      * Runs the adventure game.
      */
     public static void runAdventure(String[] arguments) throws Exception {
-        PrintValues.printTutorialInstructions();
-        layout = getAdventureLayout(arguments);
-        Room[] rooms = layout.getRooms();
-        ArrayList<Room> roomsArray = new ArrayList<>(Arrays.asList(rooms));
+        setTheGameUp(arguments);
         Room currentRoom = getStartingRoomDirections();
-        Item[] items = layout.getPlayer().getItems();
-        playerItems = new ArrayList<>(Arrays.asList(items));
         String newRoom = "";
         while (!GAME_ENDED) {
             //Print out description of room and possible directions.
             System.out.println(currentRoom.getDescription());
             System.out.println(PrintValues.printDirections(currentRoom));
             Direction[] directions = currentRoom.getDirections();
-            ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
+            directionsArray = new ArrayList<>(Arrays.asList(directions));
             Item[] item = currentRoom.getItems();
-            ArrayList<Item> roomItems = new ArrayList<>(Arrays.asList(item));
+            roomItems = new ArrayList<>(Arrays.asList(item));
 
             //Get user input.
             Scanner input = new Scanner(System.in);
@@ -123,15 +74,7 @@ public class Adventure {
             }
 
             //Check if command is valid and print out respective output.
-            if (command.equalsIgnoreCase("Check Inventory")) {
-                System.out.println("Your inventory: " + playerItems);
-            } else if (command.contains("pickup ")) {
-                addPickupItemToPlayerItems(command, roomItems);
-            } else if (command.contains("use") && command.contains("with")) {
-               newRoom = checkIfPlayerItemUsedIsValid(command, directionsArray, currentRoom);
-            } else if (command.contains("go ")) {
-                newRoom = PrintValues.printOutputFromCommand(command, currentRoom);
-            }
+            newRoom = checkCommand(command, currentRoom);
 
             //Set newRoom to the currentRoom object.
             for (int i = 0; i < roomsArray.size(); i++) {
@@ -150,8 +93,35 @@ public class Adventure {
         }
     }
 
-    public static String checkIfPlayerItemUsedIsValid(String command,
-                                                    ArrayList<Direction> directionsArray, Room currentRoom) {
+    /**
+     * Checks which command method to run.
+     *
+     * @param command - the command the user inputs
+     * @param currentRoom - the currentRoom the player is in
+     * @return the newRoom
+     */
+    public static String checkCommand(String command, Room currentRoom) {
+        String newRoom = currentRoom.getName();
+        if (command.equalsIgnoreCase("Check Inventory")) {
+            System.out.println("Your inventory: " + playerItems);
+        } else if (command.contains("pickup ")) {
+            addPickupItemToPlayerItems(command);
+        } else if (command.contains("use") && command.contains("with")) {
+            newRoom = checkIfPlayerItemUsedIsValid(command, currentRoom);
+        } else if (command.contains("go ")) {
+            newRoom = PrintValues.printOutputFromCommand(command, currentRoom);
+        }
+        return newRoom;
+    }
+
+    /**
+     * Checks if the player uses a valid item or not.
+     *
+     * @param command - the command the user inputs
+     * @param currentRoom - the currentRoom the player is in
+     * @return the newRoom
+     */
+    public static String checkIfPlayerItemUsedIsValid(String command, Room currentRoom) {
         String newRoom = currentRoom.getName();
         for (int i = 0; i < directionsArray.size(); i++) {
             for (int j = 0; j < playerItems.size(); j++) {
@@ -169,7 +139,12 @@ public class Adventure {
         return newRoom;
     }
 
-    public static void addPickupItemToPlayerItems(String command, ArrayList<Item> roomItems) {
+    /**
+     * Adds the item the player picks up to the player inventory.
+     *
+     * @param command - the command the user inputs
+     */
+    public static void addPickupItemToPlayerItems(String command) {
         if (command.contains("pickup ")) {
             for (int i = 0; i < roomItems.size(); i++) {
                 if (command.contains(roomItems.get(i).getName().toLowerCase())) {
@@ -180,23 +155,5 @@ public class Adventure {
         } else if (command.substring(0,6).equalsIgnoreCase("pickup ")) {
             System.out.println("You can not pickup: " + command.substring(6));
         }
-    }
-    /**
-     * Requests the url from the user.
-     *
-     * @return the user inputted URL
-     */
-    private static boolean checkIfURLIsValid(String url) {
-        try {
-            makeApiRequest(url);
-        } catch (UnirestException e) {
-            e.printStackTrace();
-            System.out.println("Network not responding");
-            return false;
-        } catch (MalformedURLException e) {
-            System.out.println("That URL is not valid: " + url);
-            return false;
-        }
-        return true;
     }
 }

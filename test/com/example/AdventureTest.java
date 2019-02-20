@@ -123,7 +123,7 @@ public class AdventureTest {
 
     @Test
     public void getCorrectStartingRoomDirections() throws Exception {
-        layout = Adventure.getAdventureLayout(arguments);
+        layout = LayoutCreator.getAdventureLayout(arguments);
         assertEquals(roomsArray.get(0).getName(), Adventure.getStartingRoomDirections().getName());
     }
 }
