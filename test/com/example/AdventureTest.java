@@ -1,38 +1,28 @@
 package com.example;
 
 import com.google.gson.Gson;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
 public class AdventureTest {
-    private static final String URL = "https://courses.engr.illinois.edu/cs126/adventure/siebel.json";
+    private static final String fileName = "adventure.json";
+    private static final String url = "https://courses.engr.illinois.edu/cs126/adventure/siebel.json";
     private static Layout layout = new Layout();
     private static ArrayList<Room> roomsArray = new ArrayList<>();
-    private static Room[] rooms;
-    private static final int STATUS_OK = 200;
+    private static String[] arguments = { "file", fileName};
 
-    //Parses the URL.
+    //Parses the file.
     @Before
-    public void setUp() throws Exception{
-        final HttpResponse<String> stringHttpResponse;
-        new URL(URL);
-        stringHttpResponse = Unirest.get(URL).asString();
-
-        if (stringHttpResponse.getStatus() == STATUS_OK) {
-            String json = stringHttpResponse.getBody();
-            Gson gson = new Gson();
-            layout = gson.fromJson(json, Layout.class);
-        }
-        rooms = layout.getRooms();
+    public void setUp() {
+        String file = Data.getFileContentsAsString(fileName);
+        Gson gson = new Gson();
+        layout = gson.fromJson(file, Layout.class);
+        Room[] rooms = layout.getRooms();
         roomsArray = new ArrayList<>(Arrays.asList(rooms));
     }
 
@@ -40,61 +30,107 @@ public class AdventureTest {
     //Group of Tests for the basic get functions.
     @Test
     public void getCorrectStartingRoom() {
-        assertEquals("MatthewsStreet", layout.getStartingRoom());
+        assertEquals("LockedRoom", layout.getStartingRoom());
     }
 
     @Test
     public void getCorrectEndingRoom() {
-        assertEquals("Siebel1314", layout.getEndingRoom());
+        assertEquals("TheGreatOutside", layout.getEndingRoom());
     }
 
     @Test
     public void getCorrectName() {
-        assertEquals("MatthewsStreet", roomsArray.get(0).getName());
-        assertEquals("Siebel1112", roomsArray.get(4).getName());
-        assertEquals("SiebelBasement", roomsArray.get(7).getName());
+        assertEquals("LockedRoom", roomsArray.get(0).getName());
+        assertEquals("ElevatorBasement", roomsArray.get(11).getName());
+        assertEquals("ElevatorKeyRoom", roomsArray.get(23).getName());
     }
 
     @Test
     public void getCorrectDescription() {
-        assertEquals("You are on Matthews, outside the Siebel Center",
+        assertEquals("You are in a locked room and see a door in front of you. " +
+                        "On the floor there is a key labeled 'tutorial key'.",
                 roomsArray.get(0).getDescription());
-        assertEquals("You are in the north hallway.  You can see Siebel 1112 and the door toward NCSA.",
-                roomsArray.get(3).getDescription());
-        assertEquals("You are in the basement of Siebel.  You see tables with students " +
-                "working and door to computer labs.", roomsArray.get(7).getDescription());
+        assertEquals("You enter an elevator and see the panel has only two options, B and 2.",
+                roomsArray.get(10).getDescription());
+        assertEquals("Among the broken glass scattered around the floor " +
+                "you see a 'key'.", roomsArray.get(23).getDescription());
     }
 
     @Test
     public void getCorrectDirectionName() {
         Direction[] directions = roomsArray.get(0).getDirections();
         ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
-        assertEquals("East", directionsArray.get(0).getDirectionName());
+        assertEquals("South", directionsArray.get(0).getDirectionName());
     }
 
     @Test
     public void getCorrectRoom() {
-        Direction[] directions = roomsArray.get(1).getDirections();
+        Direction[] directions = roomsArray.get(5).getDirections();
         ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
-        assertEquals("SiebelEastHallway", directionsArray.get(3).getRoom());
+        assertEquals("Kitchen", directionsArray.get(3).getRoom());
     }
 
-    //Group of tests for Helper Methods of runAdventure.
+    @Test
+    public void getCorrectPlayerItems() {
+        Item[] items = layout.getPlayer().getItems();
+        ArrayList<Item> itemsArray = new ArrayList<>(Arrays.asList(items));
+        assertEquals("compass", itemsArray.get(0).getName());
+    }
+
+    @Test
+    public void getCorrectRoomItems() {
+        Item[] items = roomsArray.get(0).getItems();
+        ArrayList<Item> itemsArray = new ArrayList<>(Arrays.asList(items));
+        assertEquals("Tutorial Key", itemsArray.get(0).getName());
+    }
+
+    @Test
+    public void getCorrectEnabledStatus() {
+        Direction[] directions = roomsArray.get(5).getDirections();
+        ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
+        assertEquals("true", directionsArray.get(2).getEnabled());
+    }
+
+    @Test
+    public void getCorrectValidKeyNames() {
+        Direction[] directions = roomsArray.get(5).getDirections();
+        ArrayList<Direction> directionsArray = new ArrayList<>(Arrays.asList(directions));
+        assertEquals("Sapphire Key", directionsArray.get(0).getValidKeyNames()[0]);
+    }
+
+    //Group of tests for Print Values in PrintValues class.
     @Test
     public void printCorrectDirections() {
-        assertEquals("From here you can go: West, Northeast, North, East.",
-                Adventure.printDirections(roomsArray.get(1)));
+        assertEquals("From here you can go: East.",
+                PrintValues.printDirections(roomsArray.get(1)));
     }
 
     @Test
-    public void getCorrectStartingRoomDirections() throws Exception {
-        Adventure.makeApiRequest(URL);
-        assertEquals(roomsArray.get(0).getName(), Adventure.getStartingRoomDirections().getName());
+    public void printCorrectUserQuitStatus() {
+        assertEquals("User quit.", PrintValues.printUserQuitStatus("quit"));
+        assertEquals("User has not quit.", PrintValues.printUserQuitStatus("nothing"));
     }
 
     @Test
-    public void correctlyChecksIfUserQuits() {
-        assertEquals("User quit.", Adventure.checkIfUserQuits("quit"));
-        assertEquals("User has not quit.", Adventure.checkIfUserQuits("nothing"));
+    public void printCorrectCommandResultWhenValidCommandAndCheckIfUserMovesRoomsIfLockedRoom() {
+        assertEquals(roomsArray.get(0).getName(),
+                PrintValues.printOutputFromCommand("go south",roomsArray.get(0)));
+    }
+
+    @Test
+    public void printCorrectCommandResultWhenValidCommandAndCheckIfUserMovesRooms() {
+        assertEquals(roomsArray.get(6).getName(),
+                PrintValues.printOutputFromCommand("go south",roomsArray.get(5)));
+    }
+
+    @Test
+    public void printCorrectCommandResultWhenInvalidCommand() {
+        assertEquals(roomsArray.get(0).getName(),
+                PrintValues.printOutputFromCommand("go north",roomsArray.get(0)));
+    }
+
+    @Test
+    public void getCorrectStatusOfURL() {
+        assertTrue(LayoutCreator.checkIfURLIsValid(url));
     }
 }

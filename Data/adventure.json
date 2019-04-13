@@ -1,0 +1,490 @@
+{
+  "startingRoom": "LockedRoom",
+  "endingRoom": "TheGreatOutside",
+  "rooms": [
+    {
+      "name": "LockedRoom",
+      "description": "You are in a locked room and see a door in front of you. On the floor there is a key labeled 'tutorial key'.",
+      "directions": [
+        {
+          "directionName": "South",
+          "room": "Lobby",
+          "enabled": "false",
+          "validKeyNames": [ "Tutorial Key" ]
+        }
+      ],
+      "items": [
+        {
+          "name": "Tutorial Key"
+        }
+      ]
+    },
+    {
+      "name": "TheGreatOutside",
+      "description": "You have made it to the great outside! Congratulations on completing the adventure.",
+      "directions": [
+        {
+          "directionName": "East",
+          "room": "DRoom",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [ ]
+    },
+    {
+      "name": "DRoom",
+      "description": "You feel the warmth of the sun through the door in front of you. However, the door is locked.",
+      "directions": [
+        {
+          "directionName": "West",
+          "room": "TheGreatOutside",
+          "enabled": "false",
+          "validKeyNames": [ "Outside Key" ]
+        },
+        {
+          "directionName": "East",
+          "room": "ARoom",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [ ]
+    },
+    {
+      "name": "ARoom",
+      "description": "The room is dark, but through the light of the open door you see a locked door that appears to have a diamond-shaped keyhole.",
+      "directions": [
+        {
+          "directionName": "West",
+          "room": "DRoom",
+          "enabled": "false",
+          "validKeyNames": [ "Diamond Key" ]
+        },
+        {
+          "directionName": "East",
+          "room": "SRoom",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [ ]
+    },
+    {
+      "name": "SRoom",
+      "description": "The room is lit in red and you see a locked door that appears to have an amethyst colored keyhole.",
+      "directions": [
+        {
+          "directionName": "West",
+          "room": "ARoom",
+          "enabled": "false",
+          "validKeyNames": [ "Amethyst Key" ]
+        },
+        {
+          "directionName": "East",
+          "room": "Lobby",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [ ]
+    },
+    {
+      "name": "Lobby",
+      "description": "You enter the lobby of what you believe to be a mansion. To your West you see a sapphire colored door that is locked.",
+      "directions": [
+        {
+          "directionName": "West",
+          "room": "SRoom",
+          "enabled": "false",
+          "validKeyNames": [ "Sapphire Key" ]
+        },
+        {
+          "directionName": "East",
+          "room": "GrandStaircase",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        },
+        {
+          "directionName": "North",
+          "room": "LockedRoom",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        },
+        {
+          "directionName": "South",
+          "room": "Kitchen",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [ ]
+    },
+    {
+      "name": "Kitchen",
+      "description": "You enter a kitchen and see a 'hammer' lying on the counter.",
+      "directions": [
+        {
+          "directionName": "North",
+          "room": "Lobby",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [
+        {
+          "name": "Hammer"
+        }
+      ]
+    },
+    {
+      "name": "GrandStaircase",
+      "description": "You see a staircase that seems to lead to an upper floor.",
+      "directions": [
+        {
+          "directionName": "Up",
+          "room": "UpperStaircase",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        },
+        {
+          "directionName": "West",
+          "room": "Lobby",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [ ]
+    },
+    {
+      "name": "UpperStaircase",
+      "description": "You reach the top floor of the mansion.",
+      "directions": [
+        {
+          "directionName": "Down",
+          "room": "GrandStaircase",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        },
+        {
+          "directionName": "North",
+          "room": "GardenView",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        },
+        {
+          "directionName": "East",
+          "room": "GlassDoor",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        },
+        {
+          "directionName": "West",
+          "room": "Hallway",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [ ]
+    },
+    {
+      "name": "Hallway",
+      "description": "You reach a long dimly lit hallway and find a locked elevator to your East. You also spot a 'rope' hanging on the wall.",
+      "directions": [
+        {
+          "directionName": "East",
+          "room": "UpperStaircase",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        },
+        {
+          "directionName": "West",
+          "room": "Elevator",
+          "enabled": "false",
+          "validKeyNames": [ "key" ]
+        }
+      ],
+      "items": [
+        {
+          "name": "rope"
+        }
+      ]
+    },
+    {
+      "name": "Elevator",
+      "description": "You enter an elevator and see the panel has only two options, B and 2.",
+      "directions": [
+        {
+          "directionName": "Down",
+          "room": "ElevatorBasement",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        },
+        {
+          "directionName": "East",
+          "room": "Hallway",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [ ]
+    },
+    {
+      "name": "ElevatorBasement",
+      "description": "The elevator hums and brings you down to a basement.",
+      "directions": [
+        {
+          "directionName": "East",
+          "room": "BasementEntrance",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [ ]
+    },
+    {
+      "name": "BasementEntrance",
+      "description": "As you exit the elevator you hear the elevator hum again and move up. You are in the basement entrance of the mansion.",
+      "directions": [
+        {
+          "directionName": "North",
+          "room": "ToolShed",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        },
+        {
+          "directionName": "East",
+          "room": "RegularRoom",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [ ]
+    },
+    {
+      "name": "ToolShed",
+      "description": "You enter a tool shed and see a 'screwdriver' hanging on a 'nail' in the wall.",
+      "directions": [
+        {
+          "directionName": "South",
+          "room": "BasementEntrance",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [
+        {
+          "name": "Screwdriver"
+        },
+        {
+          "name": "Nail"
+        }
+      ]
+    },
+    {
+      "name": "RegularRoom",
+      "description": "Just a regular room. However, there appears to be a false ceiling above you that is missing a nail.",
+      "directions": [
+        {
+          "directionName": "West",
+          "room": "BasementEntrance",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        },
+        {
+          "directionName": "North",
+          "room": "Hole",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        },
+        {
+          "directionName": "East",
+          "room": "BasementStaircase",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        },
+        {
+          "directionName": "South",
+          "room": "Bathroom",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        },
+        {
+          "directionName": "Up",
+          "room": "FalseCeiling",
+          "enabled": "false",
+          "validKeyNames": [ "Nail" ]
+        }
+      ],
+      "items": [ ]
+    },
+    {
+      "name": "FalseCeiling",
+      "description": "You see a key labeled 'outside key'.",
+      "directions": [
+        {
+          "directionName": "Down",
+          "room": "RegularRoom",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [
+        {
+          "name": "Outside Key"
+        }
+      ]
+    },
+    {
+      "name": "Bathroom",
+      "description": "You enter a bathroom and see a vent above the toilet.",
+      "directions": [
+        {
+          "directionName": "Up",
+          "room": "Vent",
+          "enabled": "false",
+          "validKeyNames": [ "Screwdriver" ]
+        },
+        {
+          "directionName": "North",
+          "room": "RegularRoom",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [ ]
+    },
+    {
+      "name": "Vent",
+      "description": "You see a 'diamond key' laying around.",
+      "directions": [
+        {
+          "directionName": "Down",
+          "room": "Bathroom",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [
+        {
+          "name": "Diamond Key"
+        }
+      ]
+    },
+    {
+      "name": "BasementStaircase",
+      "description": "You find a staircase leading up, but it looks to be a one-way only staircase.",
+      "directions": [
+        {
+          "directionName": "Up",
+          "room": "GrandStaircase",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        },
+        {
+          "directionName": "West",
+          "room": "RegularRoom",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [ ]
+    },
+    {
+      "name": "Hole",
+      "description": "You see a gaping hole in the floor of the room.",
+      "directions": [
+        {
+          "directionName": "Down",
+          "room": "Shaft",
+          "enabled": "false",
+          "validKeyNames": [ "Rope" ]
+        },
+        {
+          "directionName": "South",
+          "room": "RegularRoom",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [ ]
+    },
+    {
+      "name": "Shaft",
+      "description": "You climb down the rope and see an 'amethyst key'.",
+      "directions": [
+        {
+          "directionName": "Up",
+          "room": "Hole",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [
+        {
+          "name": "Amethyst Key"
+        }
+      ]
+    },
+    {
+      "name": "GardenView",
+      "description": "You see a beautiful garden to your North through a window. At the corner of your eye you see a 'sapphire key' lying on the windowsill.",
+      "directions": [
+        {
+          "directionName": "South",
+          "room": "UpperStaircase",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [
+        {
+          "name": "Sapphire Key"
+        }
+      ]
+    },
+    {
+      "name": "GlassDoor",
+      "description": "You see a glass door to your South and inside the room you are able to make out a key on the other side.",
+      "directions": [
+        {
+          "directionName": "West",
+          "room": "UpperStaircase",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        },
+        {
+          "directionName": "South",
+          "room": "ElevatorKeyRoom",
+          "enabled": "false",
+          "validKeyNames": [ "Hammer" ]
+        }
+      ],
+      "items": [ ]
+    },
+    {
+      "name": "ElevatorKeyRoom",
+      "description": "Among the broken glass scattered around the floor you see a 'key'.",
+      "directions": [
+        {
+          "directionName": "North",
+          "room": "GlassDoor",
+          "enabled": "true",
+          "validKeyNames": [ ]
+        }
+      ],
+      "items": [
+        {
+          "name": "key"
+        }
+      ]
+    }
+  ],
+  "player": {
+    "items": [
+      {
+        "name": "compass"
+      }
+    ]
+  }
+}
